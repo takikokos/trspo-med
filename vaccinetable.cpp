@@ -3,12 +3,13 @@
 VaccineTable::VaccineTable(QObject *parent) :
     QStandardItemModel(parent)
 {
-    this->setHorizontalHeaderLabels(this->header);
+    //this->setHorizontalHeaderLabels(this->header);
     this->setColumnCount(this->column_count);
 }
 
 void VaccineTable::load_from_text(QTextStream &input_data, QString sep)
 {
+    this->setHorizontalHeaderLabels(this->header);
     while (!input_data.atEnd())
     {
         QString line = input_data.readLine();
