@@ -20,6 +20,7 @@ set(PROJECT_SOURCES
         mainwindow.h
         mainwindow.ui
         vaccinetable.h vaccinetable.cpp
+		authdlg.h authdlg.cpp authdlg.ui
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
