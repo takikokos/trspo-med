@@ -24,8 +24,22 @@ private slots:
 
     void on_exitButton_clicked();
 
+    void on_covidCheckBox_stateChanged(int arg1);
+    void on_flgCheckBox_stateChanged(int arg1);
+    void on_tuberCheckBox_stateChanged(int arg1);
+    void on_diftCheckBox_stateChanged(int arg1);
+    void on_corCheckBox_stateChanged(int arg1);
+
+    void on_addNewRowButton_clicked();
+
+    void on_deleteButton_clicked();
+
+    void on_saveAllButton_clicked();
+
 private:
     Ui::MainWindow *ui;
     VaccineTable *vaccines = nullptr;
+
+    QString curFileName;
 };
 #endif // MAINWINDOW_H
