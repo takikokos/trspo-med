@@ -109,6 +109,14 @@
        </widget>
       </item>
       <item>
+       <widget class="QPushButton" name="findOutdatedButton">
+        <property name="text">
+         <string>Просроченные
+вакцины</string>
+        </property>
+       </widget>
+      </item>
+      <item>
        <spacer name="verticalSpacer_2">
         <property name="orientation">
          <enum>Qt::Vertical</enum>
@@ -140,13 +148,6 @@
        <widget class="QPushButton" name="deleteButton">
         <property name="text">
          <string>Удалить запись</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="Line" name="line_2">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
         </property>
        </widget>
       </item>
@@ -236,6 +237,13 @@
          </layout>
         </item>
         <item>
+         <widget class="Line" name="line_5">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+         </widget>
+        </item>
+        <item>
          <layout class="QVBoxLayout" name="searchLayout">
           <item>
            <layout class="QHBoxLayout" name="searchByNameLayout">
@@ -266,6 +274,13 @@
            </layout>
           </item>
           <item>
+           <widget class="Line" name="line_7">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+           </widget>
+          </item>
+          <item>
            <widget class="QPushButton" name="resetSearchButton">
             <property name="text">
              <string>Сбросить поиск</string>
@@ -273,6 +288,13 @@
            </widget>
           </item>
          </layout>
+        </item>
+        <item>
+         <widget class="Line" name="line_6">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+         </widget>
         </item>
         <item>
          <widget class="QListView" name="appliedFiltersView">

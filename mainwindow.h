@@ -3,6 +3,8 @@
 
 #include <QMainWindow>
 #include <QStringListModel>
+#include <QSortFilterProxyModel>
+#include <QDate>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -45,6 +47,8 @@ private slots:
 
     void on_resetSearchButton_clicked();
 
+    void on_findOutdatedButton_clicked();
+
 private:
     Ui::MainWindow *ui;
     VaccineTable *vaccines = nullptr;
@@ -52,4 +56,37 @@ private:
 
     QString curFileName;
 };
+
+class FilterDateProxyModel : public QSortFilterProxyModel
+{
+    Q_OBJECT
+
+public:
+    FilterDateProxyModel(QObject *parent = 0) : QSortFilterProxyModel(parent) {};
+
+    int dateCol() const { return filterCol; }
+    void setDateCol(int col) {filterCol = col; };
+
+protected:
+    bool filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const override
+    {
+        QString date_s = sourceModel()->data(sourceModel()->index(sourceRow, filterCol)).toString();
+
+        if (date_s.length() == 0){ // means no end date
+            return false;
+        }
+
+        QDate date = QDate::fromString(date_s, "dd.MM.yyyy");
+        Q_ASSERT(date.isValid());
+
+        if (date > QDate::currentDate()){
+            return false;
+        }
+        return true;
+    }
+
+private:
+    int filterCol;
+};
+
 #endif // MAINWINDOW_H
