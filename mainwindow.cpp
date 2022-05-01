@@ -5,7 +5,9 @@
 #include "authdlg.h"
 
 #include <QFileDialog>
+#include <QMessageBox>
 #include <QDebug>
+#include <QSortFilterProxyModel>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -13,6 +15,7 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     vaccines = new VaccineTable(this);
+    applied_filters = new QStringListModel(this);
 //    ui->tableView->setModel(vaccines);
 //    ui->tableView->resizeColumnsToContents();
 
@@ -29,6 +32,16 @@ MainWindow::MainWindow(QWidget *parent)
 
     ui->addNewRowButton->setEnabled(false);
     ui->deleteButton->setEnabled(false);
+
+    ui->searchByGroupButton->setEnabled(false);
+    ui->searchByGroupEdit->setEnabled(false);
+
+    ui->searchByNameButton->setEnabled(false);
+    ui->searchByNameEdit->setEnabled(false);
+
+    ui->resetSearchButton->setEnabled(false);
+
+    ui->saveReportButton->setEnabled(false);
 }
 
 MainWindow::~MainWindow()
@@ -77,13 +90,25 @@ void MainWindow::on_openFileButton_clicked()
         ui->deleteButton->setEnabled(true);
         ui->saveAllButton->setEnabled(true);
 
+        ui->searchByGroupButton->setEnabled(true);
+        ui->searchByGroupEdit->setEnabled(true);
+
+        ui->searchByNameButton->setEnabled(true);
+        ui->searchByNameEdit->setEnabled(true);
+
+        ui->resetSearchButton->setEnabled(true);
+
+        ui->saveReportButton->setEnabled(true);
+
         ui->tableView->setModel(vaccines);
+        ui->appliedFiltersView->setModel(applied_filters);
         ui->tableView->resizeColumnsToContents();
 
         QTextStream in(&file);
         in.readLine(); // skip header
         vaccines->loadFromText(in);
         ui->tableView->resizeColumnsToContents();
+        applied_filters->removeRows(0, applied_filters->rowCount());
         file.close();
     }
 }
@@ -104,7 +129,18 @@ void MainWindow::on_exitButton_clicked()
     ui->deleteButton->setEnabled(false);
     ui->saveAllButton->setEnabled(false);
 
+    ui->searchByGroupButton->setEnabled(false);
+    ui->searchByGroupEdit->setEnabled(false);
+
+    ui->searchByNameButton->setEnabled(false);
+    ui->searchByNameEdit->setEnabled(false);
+
+    ui->resetSearchButton->setEnabled(false);
+
+    ui->saveReportButton->setEnabled(false);
+
     vaccines->clear();
+    applied_filters->removeRows(0, applied_filters->rowCount());
 }
 
 
@@ -218,6 +254,9 @@ void MainWindow::on_saveAllButton_clicked()
         QTextStream out(&f);
         vaccines->saveToText(out);
         f.close();
+        QMessageBox msg;
+        msg.setText("База данных " + curFileName + " успешно обновлена");
+        msg.exec();
     }
 }
 
@@ -233,8 +272,9 @@ void MainWindow::on_saveReportButton_clicked()
         qDebug() << "Can't open file";
     } else {
         QTextStream out(&f);
+        auto model = ui->tableView->model(); // use currently displayed data for report
 
-        int cols_count = ui->tableView->model()->columnCount();
+        int cols_count = model->columnCount();
 
         for (int i = 0; i < cols_count; i++ ) {
             if (ui->tableView->isColumnHidden(i)) continue;
@@ -244,15 +284,15 @@ void MainWindow::on_saveReportButton_clicked()
 
         out << "\n";
 
-        for(int i = 0; i < ui->tableView->model()->rowCount(); i++)
+        for(int i = 0; i < model->rowCount(); i++)
         {
-            if (ui->tableView->isRowHidden(i)) continue;
             QString s;
 
             for (int j = 0; j < cols_count; j++)
             {
                 if (ui->tableView->isColumnHidden(j)) continue;
-                s += vaccines->item(i, j)->text() + ";";
+                auto index = model->index(i, j);
+                s += model->data(index).toString() + ";";
             }
             s.remove(s.size()-1, 1);
             out << s << "\n";
@@ -260,5 +300,50 @@ void MainWindow::on_saveReportButton_clicked()
         }
 
         f.close();
+        QMessageBox msg;
+        msg.setText("Отчет создан успешно в " + fileName);
+        msg.exec();
     }
+}
+
+void MainWindow::on_searchByNameButton_clicked()
+{
+    QString query = ui->searchByNameEdit->text();
+    if (query.trimmed().length() == 0) return;
+    auto model = ui->tableView->model();
+    QSortFilterProxyModel *proxy = new QSortFilterProxyModel;
+    proxy->setSourceModel(model);
+
+    proxy->setFilterKeyColumn(0);
+    proxy->setFilterRegExp(QRegExp("*" + query + "*", Qt::CaseInsensitive, QRegExp::Wildcard));
+
+    ui->tableView->setModel(proxy);
+    ui->searchByNameEdit->setText("");
+
+    applied_filters->insertRow(0);
+    applied_filters->setData(applied_filters->index(0), query);
+}
+
+void MainWindow::on_searchByGroupButton_clicked()
+{
+    QString query = ui->searchByGroupEdit->text();
+    if (query.trimmed().length() == 0) return;
+    auto model = ui->tableView->model();
+    QSortFilterProxyModel *proxy = new QSortFilterProxyModel;
+    proxy->setSourceModel(model);
+
+    proxy->setFilterKeyColumn(1);
+    proxy->setFilterRegExp(QRegExp("*" + query + "*", Qt::CaseInsensitive, QRegExp::Wildcard));
+
+    ui->tableView->setModel(proxy);
+    ui->searchByGroupEdit->setText("");
+
+    applied_filters->insertRow(0);
+    applied_filters->setData(applied_filters->index(0), query);
+}
+
+void MainWindow::on_resetSearchButton_clicked()
+{
+    ui->tableView->setModel(vaccines);
+    applied_filters->removeRows(0, applied_filters->rowCount());
 }

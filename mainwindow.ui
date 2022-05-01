@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>980</width>
-    <height>626</height>
+    <height>638</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -22,7 +22,7 @@
    </property>
    <layout class="QHBoxLayout" name="horizontalLayout">
     <item>
-     <layout class="QVBoxLayout" name="verticalLayout">
+     <layout class="QVBoxLayout" name="mainButtonsLayout">
       <item>
        <widget class="QPushButton" name="authButton">
         <property name="sizePolicy">
@@ -109,7 +109,7 @@
        </widget>
       </item>
       <item>
-       <spacer name="verticalSpacer">
+       <spacer name="verticalSpacer_2">
         <property name="orientation">
          <enum>Qt::Vertical</enum>
         </property>
@@ -150,60 +150,10 @@
         </property>
        </widget>
       </item>
-      <item>
-       <widget class="QCheckBox" name="covidCheckBox">
-        <property name="text">
-         <string>COVID</string>
-        </property>
-        <property name="checked">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QCheckBox" name="flgCheckBox">
-        <property name="text">
-         <string>ФЛГ</string>
-        </property>
-        <property name="checked">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QCheckBox" name="tuberCheckBox">
-        <property name="text">
-         <string>Туберкулез</string>
-        </property>
-        <property name="checked">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QCheckBox" name="diftCheckBox">
-        <property name="text">
-         <string>Дифтерия</string>
-        </property>
-        <property name="checked">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QCheckBox" name="corCheckBox">
-        <property name="text">
-         <string>Корь</string>
-        </property>
-        <property name="checked">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
      </layout>
     </item>
     <item>
-     <layout class="QVBoxLayout" name="verticalLayout_2">
+     <layout class="QVBoxLayout" name="tableLayout">
       <item>
        <widget class="QTableView" name="tableView">
         <property name="sizePolicy">
@@ -228,6 +178,122 @@
          <bool>false</bool>
         </attribute>
        </widget>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="filterTabLayout">
+        <item>
+         <layout class="QVBoxLayout" name="filterColumnLayout">
+          <item>
+           <widget class="QCheckBox" name="covidCheckBox">
+            <property name="text">
+             <string>COVID</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="flgCheckBox">
+            <property name="text">
+             <string>ФЛГ</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="tuberCheckBox">
+            <property name="text">
+             <string>Туберкулез</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="diftCheckBox">
+            <property name="text">
+             <string>Дифтерия</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="corCheckBox">
+            <property name="text">
+             <string>Корь</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QVBoxLayout" name="searchLayout">
+          <item>
+           <layout class="QHBoxLayout" name="searchByNameLayout">
+            <item>
+             <widget class="QLineEdit" name="searchByNameEdit"/>
+            </item>
+            <item>
+             <widget class="QPushButton" name="searchByNameButton">
+              <property name="text">
+               <string>Поиск по имени</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="searchByGroupLayout">
+            <item>
+             <widget class="QLineEdit" name="searchByGroupEdit"/>
+            </item>
+            <item>
+             <widget class="QPushButton" name="searchByGroupButton">
+              <property name="text">
+               <string>Поиск по группе</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <widget class="QPushButton" name="resetSearchButton">
+            <property name="text">
+             <string>Сбросить поиск</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <widget class="QListView" name="appliedFiltersView">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>250</width>
+            <height>100</height>
+           </size>
+          </property>
+          <property name="editTriggers">
+           <set>QAbstractItemView::NoEditTriggers</set>
+          </property>
+         </widget>
+        </item>
+       </layout>
       </item>
      </layout>
     </item>
