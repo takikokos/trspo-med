@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>918</width>
-    <height>620</height>
+    <width>980</width>
+    <height>626</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -98,6 +98,13 @@
        <widget class="Line" name="line_4">
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="saveReportButton">
+        <property name="text">
+         <string>Создать отчет</string>
         </property>
        </widget>
       </item>

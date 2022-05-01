@@ -216,11 +216,49 @@ void MainWindow::on_saveAllButton_clicked()
         qDebug() << "File not exists";
     } else {
         QTextStream out(&f);
-        QStringList list = vaccines->getHeader();
-        out << list.join(";"); // skip header
-        out << "\n";
         vaccines->saveToText(out);
         f.close();
     }
 }
 
+
+void MainWindow::on_saveReportButton_clicked()
+{
+    QString fileName = QFileDialog::getSaveFileName(this,
+        tr("Создать отчет"), QCoreApplication::applicationDirPath(), tr("Table Data (*.csv)")
+    );
+    QFile f(fileName);
+
+    if ( !f.open(QIODevice::WriteOnly | QIODevice::Text) ) {
+        qDebug() << "Can't open file";
+    } else {
+        QTextStream out(&f);
+
+        int cols_count = ui->tableView->model()->columnCount();
+
+        for (int i = 0; i < cols_count; i++ ) {
+            if (ui->tableView->isColumnHidden(i)) continue;
+            out << vaccines->getHeader().at(i);
+            if (i + 1 != cols_count) out << ";";
+        }
+
+        out << "\n";
+
+        for(int i = 0; i < ui->tableView->model()->rowCount(); i++)
+        {
+            if (ui->tableView->isRowHidden(i)) continue;
+            QString s;
+
+            for (int j = 0; j < cols_count; j++)
+            {
+                if (ui->tableView->isColumnHidden(j)) continue;
+                s += vaccines->item(i, j)->text() + ";";
+            }
+            s.remove(s.size()-1, 1);
+            out << s << "\n";
+
+        }
+
+        f.close();
+    }
+}

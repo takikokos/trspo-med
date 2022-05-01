@@ -36,6 +36,8 @@ private slots:
 
     void on_saveAllButton_clicked();
 
+    void on_saveReportButton_clicked();
+
 private:
     Ui::MainWindow *ui;
     VaccineTable *vaccines = nullptr;

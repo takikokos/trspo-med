@@ -33,6 +33,7 @@ void VaccineTable::loadFromText(QTextStream &input_data, QString sep)
 
 void VaccineTable::saveToText(QTextStream &input_data, QString sep)
 {
+    input_data << this->header.join(sep) << "\n";
     for(int i = 0; i < this->rowCount(); i++)
     {
         QString s;
