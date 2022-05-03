@@ -267,6 +267,7 @@ void MainWindow::on_saveAllButton_clicked()
         vaccines->saveToText(out);
         f.close();
         QMessageBox msg;
+        msg.setWindowTitle("Сохранено");
         msg.setText("База данных " + curFileName + " успешно обновлена");
         msg.exec();
     }
@@ -314,6 +315,7 @@ void MainWindow::on_saveReportButton_clicked()
 
         f.close();
         QMessageBox msg;
+        msg.setWindowTitle("Отчет");
         msg.setText("Отчет создан успешно в " + fileName);
         msg.exec();
     }
@@ -375,6 +377,7 @@ void MainWindow::on_findOutdatedButton_clicked()
             int(ui->tuberCheckBox->isChecked());
      if (selected_vacs != 1){
          QMessageBox msg;
+         msg.setWindowTitle("Внимание");
          msg.setText("Эту функцию можно использовать только когда выбрана 1 вакцина из всех");
          msg.exec();
          return;
