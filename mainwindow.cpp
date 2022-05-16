@@ -46,6 +46,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->saveReportButton->setEnabled(false);
 
     ui->findOutdatedButton->setEnabled(false);
+    ui->findUpToDateButton->setEnabled(false);
 }
 
 MainWindow::~MainWindow()
@@ -114,6 +115,7 @@ void MainWindow::on_openFileButton_clicked()
         ui->saveReportButton->setEnabled(true);
 
         ui->findOutdatedButton->setEnabled(true);
+        ui->findUpToDateButton->setEnabled(true);
 
         ui->tableView->setModel(vaccines);
         ui->appliedFiltersView->setModel(applied_filters);
@@ -157,6 +159,7 @@ void MainWindow::on_exitButton_clicked()
     ui->saveReportButton->setEnabled(false);
 
     ui->findOutdatedButton->setEnabled(false);
+    ui->findUpToDateButton->setEnabled(false);
 
     vaccines->clear();
     applied_filters->removeRows(0, applied_filters->rowCount());
@@ -403,6 +406,7 @@ void MainWindow::on_findOutdatedButton_clicked()
      proxy->setSourceModel(ui->tableView->model());
 
      proxy->setDateCol(vac_date_col);
+     proxy->setOutdated(true);
 
      ui->tableView->setModel(proxy);
 
@@ -427,5 +431,43 @@ void MainWindow::on_allEmptyButton_clicked()
     ui->tuberCheckBox->setChecked(false);
     ui->diftCheckBox->setChecked(false);
     ui->corCheckBox->setChecked(false);
+}
+
+
+void MainWindow::on_findUpToDateButton_clicked()
+{
+    int selected_vacs =
+            int(ui->corCheckBox->isChecked()) +
+            int(ui->covidCheckBox->isChecked()) +
+            int(ui->diftCheckBox->isChecked()) +
+            int(ui->flgCheckBox->isChecked()) +
+            int(ui->tuberCheckBox->isChecked());
+     if (selected_vacs != 1){
+         QMessageBox msg;
+         msg.setWindowTitle("Внимание");
+         msg.setText("Эту функцию можно использовать только когда выбрана 1 вакцина из всех");
+         msg.exec();
+         return;
+     }
+
+     int vac_date_col = -1;
+     QString log_msg;
+
+     if (ui->corCheckBox->isChecked()) { vac_date_col = 15; log_msg = "Действующие по Кори"; }
+     if (ui->covidCheckBox->isChecked()) { vac_date_col = 3; log_msg = "Действующие по Ковиду"; }
+     if (ui->diftCheckBox->isChecked()) { vac_date_col = 12; log_msg = "Действующие по Дифтерии"; }
+     if (ui->flgCheckBox->isChecked()) { vac_date_col = 6; log_msg = "Действующие по ФЛГ"; }
+     if (ui->tuberCheckBox->isChecked()) { vac_date_col = 9; log_msg = "Действующие по Туберкулезу"; }
+
+     FilterDateProxyModel *proxy = new FilterDateProxyModel;
+     proxy->setSourceModel(ui->tableView->model());
+
+     proxy->setDateCol(vac_date_col);
+     proxy->setOutdated(false);
+
+     ui->tableView->setModel(proxy);
+
+     applied_filters->insertRow(0);
+     applied_filters->setData(applied_filters->index(0), log_msg);
 }
 

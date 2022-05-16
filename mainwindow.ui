@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>980</width>
-    <height>783</height>
+    <height>821</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -105,6 +105,14 @@
        <widget class="QPushButton" name="saveReportButton">
         <property name="text">
          <string>Создать отчет</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="findUpToDateButton">
+        <property name="text">
+         <string>Действующие
+вакцины</string>
         </property>
        </widget>
       </item>

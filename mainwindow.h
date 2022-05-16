@@ -53,6 +53,8 @@ private slots:
 
     void on_allEmptyButton_clicked();
 
+    void on_findUpToDateButton_clicked();
+
 private:
     Ui::MainWindow *ui;
     VaccineTable *vaccines = nullptr;
@@ -70,6 +72,7 @@ public:
 
     int dateCol() const { return filterCol; }
     void setDateCol(int col) {filterCol = col; };
+    void setOutdated(bool val) {outdated = val; };
 
 protected:
     bool filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const override
@@ -77,19 +80,20 @@ protected:
         QString date_s = sourceModel()->data(sourceModel()->index(sourceRow, filterCol)).toString();
 
         if (date_s.length() == 0){ // means no end date
-            return false;
+            return !this->outdated;
         }
 
         QDate date = QDate::fromString(date_s, "dd.MM.yyyy");
         Q_ASSERT(date.isValid());
 
         if (date > QDate::currentDate()){
-            return false;
+            return !this->outdated;
         }
-        return true;
+        return this->outdated;
     }
 
 private:
+    bool outdated; // true if we want to show only outdated, false to show up-to-date
     int filterCol;
 };
 
