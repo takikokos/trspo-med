@@ -49,6 +49,10 @@ private slots:
 
     void on_findOutdatedButton_clicked();
 
+    void on_allCheckedButton_clicked();
+
+    void on_allEmptyButton_clicked();
+
 private:
     Ui::MainWindow *ui;
     VaccineTable *vaccines = nullptr;

@@ -29,6 +29,8 @@ MainWindow::MainWindow(QWidget *parent)
     ui->tuberCheckBox->setEnabled(false);
     ui->diftCheckBox->setEnabled(false);
     ui->corCheckBox->setEnabled(false);
+    ui->allCheckedButton->setEnabled(false);
+    ui->allEmptyButton->setEnabled(false);
 
     ui->addNewRowButton->setEnabled(false);
     ui->deleteButton->setEnabled(false);
@@ -93,6 +95,9 @@ void MainWindow::on_openFileButton_clicked()
         ui->tuberCheckBox->setChecked(true);
         ui->diftCheckBox->setChecked(true);
         ui->corCheckBox->setChecked(true);
+        ui->allCheckedButton->setEnabled(true);
+        ui->allEmptyButton->setEnabled(true);
+
 
         ui->addNewRowButton->setEnabled(true);
         ui->deleteButton->setEnabled(true);
@@ -134,6 +139,8 @@ void MainWindow::on_exitButton_clicked()
     ui->tuberCheckBox->setEnabled(false);
     ui->diftCheckBox->setEnabled(false);
     ui->corCheckBox->setEnabled(false);
+    ui->allCheckedButton->setEnabled(false);
+    ui->allEmptyButton->setEnabled(false);
 
     ui->addNewRowButton->setEnabled(false);
     ui->deleteButton->setEnabled(false);
@@ -402,3 +409,23 @@ void MainWindow::on_findOutdatedButton_clicked()
      applied_filters->insertRow(0);
      applied_filters->setData(applied_filters->index(0), log_msg);
 }
+
+void MainWindow::on_allCheckedButton_clicked()
+{
+    ui->covidCheckBox->setChecked(true);
+    ui->flgCheckBox->setChecked(true);
+    ui->tuberCheckBox->setChecked(true);
+    ui->diftCheckBox->setChecked(true);
+    ui->corCheckBox->setChecked(true);
+}
+
+
+void MainWindow::on_allEmptyButton_clicked()
+{
+    ui->covidCheckBox->setChecked(false);
+    ui->flgCheckBox->setChecked(false);
+    ui->tuberCheckBox->setChecked(false);
+    ui->diftCheckBox->setChecked(false);
+    ui->corCheckBox->setChecked(false);
+}
+
